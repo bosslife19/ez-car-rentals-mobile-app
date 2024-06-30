@@ -11,7 +11,7 @@ const OnboardingLayout = () => {
      <GestureHandlerRootView style={{ flex: 1 }}>
     <Drawer screenOptions={{headerShown:false}} drawerContent={(props) => <CustomDrawerContent />}>
       
-
+      <Drawer.Screen name='damage-id' />
     </Drawer>
   </GestureHandlerRootView>
 {/* <Slot/> */}

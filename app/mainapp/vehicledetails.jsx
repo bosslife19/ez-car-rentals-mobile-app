@@ -5,13 +5,20 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import React from "react";
+
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import { router } from "expo-router";
+import CongratsModal from "../_components/CongratsModal";
 
 const VehicleDetails = () => {
+  const [congratsModal, setCongratsModal] = useState(false);
+  const toggleModal = ()=>{
+    setCongratsModal(prev=>!prev);
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -38,53 +45,65 @@ const VehicleDetails = () => {
           />
         </ImageBackground>
         <View style={{ marginTop: 10, height: 300 }}>
-          <View style={{ position: "absolute", top: -210, right:-40 }}>
+          <View style={{ position: "absolute", top: -210, right: -40 }}>
             <Image
               source={require("@/assets/images/yellowcar-removed.png")}
               height={316}
               resizeMode="contain"
-              style={{ margin: "auto", }}
+              style={{ margin: "auto" }}
             />
           </View>
         </View>
 
-        <View style={{top:-190, gap:20}}>
+        <View style={{ top: -190, gap: 20 }}>
           <View
             style={{
               width: "90%",
               margin: "auto",
               height: 240,
               backgroundColor: "#161616",
-              borderRadius:10,
-              gap:20,
-              paddingVertical:15,
-              paddingLeft:8
-              
+              borderRadius: 10,
+              gap: 20,
+              paddingVertical: 15,
+              paddingLeft: 8,
             }}
           >
             <View>
-            <Text style={styles.text}>#Reservation</Text>
-            <Text style={styles.text}>34</Text>
+              <Text style={styles.text}>#Reservation</Text>
+              <Text style={styles.text}>34</Text>
 
-            <Text style={styles.text}>Return</Text>
-            <Text style={styles.text}>21/09/2024   12:00PM</Text>
-            <View style={{flexDirection:'row', alignItems:'center', gap:2}}>
-                <Image source={require('@/assets/icons/location.png')} width={16} height={16} tintColor='#00A1EA'/>
+              <Text style={styles.text}>Return</Text>
+              <Text style={styles.text}>21/09/2024 12:00PM</Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+              >
+                <Image
+                  source={require("@/assets/icons/location.png")}
+                  width={16}
+                  height={16}
+                  tintColor="#00A1EA"
+                />
                 <Text style={styles.text}>No 55, Edinburg, Wales</Text>
-            </View>
-           
+              </View>
             </View>
 
             <View>
-            <Text style={styles.text}>#Pickup</Text>
-            <Text style={styles.text}>34</Text>
+              <Text style={styles.text}>#Pickup</Text>
+              <Text style={styles.text}>34</Text>
 
-            <Text style={styles.text}>Return</Text>
-            <Text style={styles.text}>21/09/2024   12:00PM</Text>
-            <View style={{flexDirection:'row', alignItems:'center', gap:2}}>
-                <Image source={require('@/assets/icons/location.png')} width={16} height={16} tintColor='#00A1EA'/>
+              <Text style={styles.text}>Return</Text>
+              <Text style={styles.text}>21/09/2024 12:00PM</Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+              >
+                <Image
+                  source={require("@/assets/icons/location.png")}
+                  width={16}
+                  height={16}
+                  tintColor="#00A1EA"
+                />
                 <Text style={styles.text}>No 55, Edinburg, Wales</Text>
-            </View>
+              </View>
             </View>
           </View>
 
@@ -94,67 +113,142 @@ const VehicleDetails = () => {
               margin: "auto",
               height: 240,
               backgroundColor: "#161616",
-              borderRadius:10,
-              gap:20,
-              paddingVertical:15,
-              paddingLeft:8
-              
+              borderRadius: 10,
+              gap: 20,
+              paddingVertical: 15,
+              paddingLeft: 8,
             }}
           >
             <View>
-            <Text style={styles.text}>#Reservation</Text>
-            <Text style={styles.text}>34</Text>
+              <Text style={styles.text}>#Reservation</Text>
+              <Text style={styles.text}>34</Text>
 
-            <Text style={styles.text}>Return</Text>
-            <Text style={styles.text}>21/09/2024   12:00PM</Text>
-            <View style={{flexDirection:'row', alignItems:'center', gap:2}}>
-                <Image source={require('@/assets/icons/location.png')} width={16} height={16} tintColor='#00A1EA'/>
+              <Text style={styles.text}>Return</Text>
+              <Text style={styles.text}>21/09/2024 12:00PM</Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+              >
+                <Image
+                  source={require("@/assets/icons/location.png")}
+                  width={16}
+                  height={16}
+                  tintColor="#00A1EA"
+                />
                 <Text style={styles.text}>No 55, Edinburg, Wales</Text>
-            </View>
-           
+              </View>
             </View>
 
             <View>
-            <Text style={styles.text}>#Pickup</Text>
-            <Text style={styles.text}>34</Text>
+              <Text style={styles.text}>#Pickup</Text>
+              <Text style={styles.text}>34</Text>
 
-            <Text style={styles.text}>Return</Text>
-            <Text style={styles.text}>21/09/2024   12:00PM</Text>
-            <View style={{flexDirection:'row', alignItems:'center', gap:2}}>
-                <Image source={require('@/assets/icons/location.png')} width={16} height={16} tintColor='#00A1EA'/>
+              <Text style={styles.text}>Return</Text>
+              <Text style={styles.text}>21/09/2024 12:00PM</Text>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 2 }}
+              >
+                <Image
+                  source={require("@/assets/icons/location.png")}
+                  width={16}
+                  height={16}
+                  tintColor="#00A1EA"
+                />
                 <Text style={styles.text}>No 55, Edinburg, Wales</Text>
-            </View>
+              </View>
             </View>
           </View>
-          <TouchableOpacity style={{marginVertical:20, justifyContent:'center', alignItems:'center', width:'92%', height:57, backgroundColor:'#00A1EA', borderRadius:10, margin:'auto'}}>
-                <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'white'}}>Open Door</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+          onPress={()=>setCongratsModal(true)}
+            style={{
+              marginVertical: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              width: "92%",
+              height: 57,
+              backgroundColor: "#00A1EA",
+              borderRadius: 10,
+              margin: "auto",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins",
+                fontSize: 16,
+                fontWeight: "600",
+                lineHeight: 24,
+                color: "white",
+              }}
+            >
+              Open Door
+            </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}}>
-                <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'#000'}}>Close Door</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginVertical: 18,
+              justifyContent: "center",
+              alignItems: "center",
+              width: "92%",
+              margin: "auto",
+              height: 57,
+              backgroundColor: "#b3cee5",
+              borderRadius: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins",
+                fontSize: 16,
+                fontWeight: "600",
+                lineHeight: 24,
+                color: "#000",
+              }}
+            >
+              Close Door
+            </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}} onPress={()=>router.push('/mainapp/endtrip')}>
-                <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'#000'}}>Open Trunk</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginVertical: 18,
+              justifyContent: "center",
+              alignItems: "center",
+              width: "92%",
+              margin: "auto",
+              height: 57,
+              backgroundColor: "#b3cee5",
+              borderRadius: 10,
+            }}
+            onPress={() => router.push("/mainapp/endtrip")}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins",
+                fontSize: 16,
+                fontWeight: "600",
+                lineHeight: 24,
+                color: "#000",
+              }}
+            >
+              Open Trunk
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        
-           
       </ScrollView>
+      {congratsModal && (
+        <CongratsModal toggleModal={toggleModal}/>
+      )}
     </SafeAreaView>
   );
 };
 
-export default VehicleDetails
+export default VehicleDetails;
 const styles = StyleSheet.create({
-
-
-    text:{
-        fontFamily:'Poppins',
-        fontSize:12,
-        fontWeight:'500',
-        lineHeight:18,
-        color:'white',
-    }
+  text: {
+    fontFamily: "Poppins",
+    fontSize: 12,
+    fontWeight: "500",
+    lineHeight: 18,
+    color: "white",
+  },
 });

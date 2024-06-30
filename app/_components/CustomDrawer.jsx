@@ -44,7 +44,7 @@ function CustomDrawerContent(props) {
       
       label="Contact Information"
       icon={() => <Image source={require('@/assets/icons/contact-info.png')} width={24} height={24}/>}
-      onPress={()=>{router.push('')}}
+      onPress={()=>{router.push('/contact-info')}}
     />
     <DrawerItem
     
@@ -57,7 +57,7 @@ function CustomDrawerContent(props) {
     
     label="Locations"
     icon={() => <Image source={require('@/assets/icons/location.png')} width={24} height={24}/>}
-    onPress={()=>{}}
+    onPress={()=>{router.push("/location")}}
   />
 
 <DrawerItem
@@ -71,14 +71,14 @@ function CustomDrawerContent(props) {
     
     label="Privacy Hire Policy"
     icon={() => <Image source={require('@/assets/icons/privacy.png')} width={24} height={24}/>}
-    onPress={()=>{}}
+    onPress={()=>{router.push('/damage-id')}}
   />
 
 <DrawerItem
     
     label="Terms and Conditions"
     icon={() => <Image source={require('@/assets/icons/terms.png')} width={24} height={24}/>}
-    onPress={()=>{}}
+    onPress={()=>{router.push('/terms-and-condition')}}
   />
       </View>
 
