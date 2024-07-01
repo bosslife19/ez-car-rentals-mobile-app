@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 
-const CongratsModal = ({toggleModal}) => {
+const CongratsModal = ({toggleModal, text}) => {
   return (
     <>
       <View
@@ -49,7 +49,7 @@ const CongratsModal = ({toggleModal}) => {
 
 
           <Text style={{fontSize:12, fontWeight:'500', lineHeight:18, textAlign:"center" }}>
-          You have successfully opened the Doors. You are free to pick up the keys and start your journey after uploading images for damage check.
+          {text}
           </Text>
           
 

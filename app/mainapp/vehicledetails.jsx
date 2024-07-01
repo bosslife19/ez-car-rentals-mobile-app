@@ -236,7 +236,7 @@ const VehicleDetails = () => {
         </View>
       </ScrollView>
       {congratsModal && (
-        <CongratsModal toggleModal={toggleModal}/>
+        <CongratsModal toggleModal={toggleModal} text='You have successfully opened the Doors. You are free to pick up the keys and start your journey after uploading images for damage check.'/>
       )}
     </SafeAreaView>
   );
