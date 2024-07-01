@@ -12,12 +12,86 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import CongratsModal from "../_components/CongratsModal";
+import axiosClient from "../../axios/axiosClient";
 
 const VehicleDetails = () => {
-  const [congratsModal, setCongratsModal] = useState(false);
-  const toggleModal = ()=>{
-    setCongratsModal(prev=>!prev);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [trunkModal, setTrunkModal] = React.useState(false);
+
+  
+const [trunkOpen, setTrunkOpen] = useState(false)
+  const [open, setOpen] = React.useState(false);
+  const toggleModal = () => {
+    setOpenModal((prev) => !prev);
+  };
+  const handleOpenDoor = async () => {
+    const id = await AsyncStorage.getItem("vehicleId");
+    const token = await AsyncStorage.getItem("accessToken");
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/vehicle/${id}/command/generic/start`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setOpen(true);
+        setOpenModal(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleCloseDoor = async () => {
+    const id = await AsyncStorage.getItem("vehicleId");
+    const token = await AsyncStorage.getItem("accessToken");
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/vehicle/${id}/command/generic/stop`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setOpen(false);
+        setOpenModal(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleOpenTrunk = async()=>{
+    const identifier = await AsyncStorage.getItem('identifier');
+
+    try {
+      const res = await axiosClient.put(`/devices/${identifier}/state/trunk`,{
+        closed: false
+      });
+
+      if(res.status ===200){
+        console.log(res.data);
+        setTrunkOpen(true);
+        setTrunkModal(true);
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -158,7 +232,7 @@ const VehicleDetails = () => {
             </View>
           </View>
           <TouchableOpacity
-          onPress={()=>setCongratsModal(true)}
+          onPress={handleOpenDoor}
             style={{
               marginVertical: 20,
               justifyContent: "center",
@@ -184,6 +258,7 @@ const VehicleDetails = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
+          onPress={handleCloseDoor}
             style={{
               marginVertical: 18,
               justifyContent: "center",
@@ -219,7 +294,7 @@ const VehicleDetails = () => {
               backgroundColor: "#b3cee5",
               borderRadius: 10,
             }}
-            onPress={() => router.push("/mainapp/endtrip")}
+            onPress={handleOpenTrunk}
           >
             <Text
               style={{
@@ -235,8 +310,25 @@ const VehicleDetails = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      {congratsModal && (
-        <CongratsModal toggleModal={toggleModal} text='You have successfully opened the Doors. You are free to pick up the keys and start your journey after uploading images for damage check.'/>
+      {openModal && (
+        <CongratsModal
+          toggleModal={toggleModal}
+          text={
+            open
+              ? "You have successfully opened the Doors. You are free to pick up the keys and start your journey after uploading images for damage check."
+              : "You may begin the process of ending trip by checking through the damage ID"
+          }
+        />
+      )}
+      {trunkModal && (
+        <CongratsModal
+          toggleModal={toggleModal}
+          text={
+            trunkOpen
+              ? "You have successfully opened the Trunk. You start your journey after uploading images for damage check."
+              : "You have successfully closed the Trunk and may begin the process of ending trip by checking through the damage ID"
+          }
+        />
       )}
     </SafeAreaView>
   );

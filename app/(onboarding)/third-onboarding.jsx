@@ -2,9 +2,15 @@ import React from 'react';
 import { StyleSheet, View, ImageBackground, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function ThirdOnboarding() {
+const handleLastOnBoarding = async()=>{
+await AsyncStorage.setItem('onboardComplete', 'yes');
+
+router.push('/mainapp')
+}
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -58,7 +64,7 @@ technology that our app employs.
   <TouchableOpacity style={{width:14, height:14, borderRadius:8.5,backgroundColor:'#E0DEDE'}} onPress={()=>router.back()}></TouchableOpacity>
   <View style={{width:17, height:17, borderRadius:8.5,backgroundColor:'#00A1EA'}}></View>
 </View>
-<TouchableOpacity onPress={()=>router.push('/mainapp')}>
+<TouchableOpacity onPress={handleLastOnBoarding}>
 <Image source={require('@/assets/icons/next.png')} style={{width:86.27, height:86.27}}/>
 </TouchableOpacity>
 

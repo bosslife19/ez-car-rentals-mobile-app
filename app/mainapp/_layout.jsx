@@ -5,7 +5,7 @@ import { Drawer } from 'expo-router/drawer';
 import React from 'react'
 
 
-const OnboardingLayout = () => {
+const MainAppLayout = () => {
   return (
     <>
      <GestureHandlerRootView style={{ flex: 1 }}>
@@ -20,6 +20,6 @@ const OnboardingLayout = () => {
   )
 }
 
-export default OnboardingLayout
+export default MainAppLayout
 
 const styles = StyleSheet.create({})

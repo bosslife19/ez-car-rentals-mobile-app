@@ -2,10 +2,19 @@ import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FirstPageButtons from "../_components/FirstPageButtons";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Home = () => {
 
+  const checkOnboarding = async ()=>{
+    const onboarded = await AsyncStorage.getItem('onboardComplete');
+    if(onboarded === 'yes'){
+       router.replace('/mainapp')
+    }
+  }
+
+  checkOnboarding();
   const onPress = (screen)=>{
     router.push(`/${screen}`);
   }
