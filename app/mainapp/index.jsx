@@ -26,6 +26,35 @@ const [trunkOpen, setTrunkOpen] = useState(false)
   const toggleModal = () => {
     setOpenModal((prev) => !prev);
   };
+
+  const handleEndTrip = async ()=>{
+    const id = await AsyncStorage.getItem("vehicleId");
+    const token = await AsyncStorage.getItem("accessToken");
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/vehicle/${id}/command/generic/stop`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        setOpen(false);
+        setOpenModal(true);
+
+        setTimeout(()=>{
+          router.push('/mainapp/vehicledetails');
+        },5000)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const handleOpenDoor = async () => {
     const id = await AsyncStorage.getItem("vehicleId");
     const token = await AsyncStorage.getItem("accessToken");
@@ -371,7 +400,7 @@ const [trunkOpen, setTrunkOpen] = useState(false)
               backgroundColor: "#161616",
               borderRadius: 10,
             }}
-            onPress={() => router.push("/mainapp/vehicledetails")}
+            onPress={() => handleEndTrip()}
           >
             <Text
               style={{

@@ -1,9 +1,120 @@
 import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { router } from 'expo-router'
+import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import CongratsModal from "../_components/CongratsModal";
+import axiosClient from "../../axios/axiosClient";
+
 
 const EndTrip = () => {
+  const [openModal, setOpenModal] = React.useState(false);
+  const [trunkModal, setTrunkModal] = React.useState(false);
+
+  
+const [trunkOpen, setTrunkOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
+  const toggleModal = () => {
+    setOpenModal((prev) => !prev);
+  };
+
+  const handleEndTrip = async ()=>{
+    const id = await AsyncStorage.getItem("vehicleId");
+    const token = await AsyncStorage.getItem("accessToken");
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/vehicle/${id}/command/generic/stop`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        setOpen(false);
+        setOpenModal(true);
+
+        setTimeout(()=>{
+          router.push('/damage-id');
+        },5000)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleOpenDoor = async () => {
+    const id = await AsyncStorage.getItem("vehicleId");
+    const token = await AsyncStorage.getItem("accessToken");
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/vehicle/${id}/command/generic/start`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setOpen(true);
+        setOpenModal(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleCloseDoor = async () => {
+    const id = await AsyncStorage.getItem("vehicleId");
+    const token = await AsyncStorage.getItem("accessToken");
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/vehicle/${id}/command/generic/stop`,
+        {},
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setOpen(false);
+        setOpenModal(true);
+        console.log('closed')
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleOpenTrunk = async()=>{
+    const identifier = await AsyncStorage.getItem('identifier');
+
+    try {
+      const res = await axiosClient.put(`/devices/${identifier}/state/trunk`,{
+        closed: false
+      });
+
+      if(res.status ===200){
+        console.log(res.data);
+        setTrunkOpen(true);
+        setTrunkModal(true);
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <SafeAreaView style={{flex:1}}>
         <ScrollView style={{paddingHorizontal:15}}>
@@ -126,25 +237,45 @@ the car.</Text>
             </View>
           </View>
 
-          <TouchableOpacity style={{marginVertical:20, justifyContent:'center', alignItems:'center', width:'92%', height:57, backgroundColor:'#00A1EA', borderRadius:10, margin:'auto'}}>
+          <TouchableOpacity style={{marginVertical:20, justifyContent:'center', alignItems:'center', width:'92%', height:57, backgroundColor:'#00A1EA', borderRadius:10, margin:'auto'}} onPress={handleEndTrip}>
                 <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'white'}}>End Trip</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}}>
+            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}} onPress={handleOpenDoor}>
                 <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'#000'}}>Open Door</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}} onPress={()=>router.push('/mainapp/endtrip')}>
+            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}} onPress={handleCloseDoor}>
                 <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'#000'}}>Close Door</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}} onPress={()=>router.push('/mainapp/endtrip')}>
+            <TouchableOpacity style={{marginVertical:18, justifyContent:'center', alignItems:'center', width:'92%',margin:'auto', height:57, backgroundColor:'#b3cee5', borderRadius:10}} onPress={handleOpenTrunk}>
                 <Text style={{fontFamily:'Poppins', fontSize:16, fontWeight:'600', lineHeight:24, color:'#000'}}>Open Trunk</Text>
             </TouchableOpacity>
 
             </View>
 
         </ScrollView>
+        {openModal && (
+        <CongratsModal
+          toggleModal={toggleModal}
+          text={
+            open
+              ? "You have successfully opened the Doors. You are free to pick up the keys and start your journey after uploading images for damage check."
+              : "You may begin the process of ending trip by checking through the damage ID"
+          }
+        />
+      )}
+      {trunkModal && (
+        <CongratsModal
+          toggleModal={toggleModal}
+          text={
+            trunkOpen
+              ? "You have successfully opened the Trunk. You start your journey after uploading images for damage check."
+              : "You have successfully closed the Trunk and may begin the process of ending trip by checking through the damage ID"
+          }
+        />
+      )}
     </SafeAreaView>
   )
 }

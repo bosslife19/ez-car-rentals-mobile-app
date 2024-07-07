@@ -88,6 +88,10 @@ const [trunkOpen, setTrunkOpen] = useState(false)
         console.log(res.data);
         setTrunkOpen(true);
         setTrunkModal(true);
+
+        setTimeout(()=>{
+          router.push('/mainapp/endtrip');
+        },4000)
       }
     } catch (error) {
       console.error(error)
